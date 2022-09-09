@@ -10,15 +10,15 @@ int ft_strlen(char *str)
   return (i);
 }
 
-void ft_strncpy(char *s1, char *s2, int j)
+void ft_strncpy(char *dest, char *src, int j)
 {
   int i;
 
   i = 0;
   while (i < j)
   {
-    s1[i] = s2[i];
+    dest[i] = src[i];
     i++;
   }
-  s1[i] = '\0';
+  dest[i] = '\0';
 }

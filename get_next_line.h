@@ -6,8 +6,7 @@
 #include <stdio.h>
 #include<fcntl.h>
 
-#define BUFER_SIZE 4096
 int get_next_line(int fd, char **line);
-void  ft_strncpy(char *s1, char *s2, int j);
+void  ft_strncpy(char *dest, char *src, int j);
 
 #endif

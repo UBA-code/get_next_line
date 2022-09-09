@@ -1,47 +1,54 @@
 #include "get_next_line.h"
 
-static int counter = 0;
-
 int get_next_line(int fd, char **line)
 {
-  int i;
-  int j;
-  char file_content[BUFER_SIZE];
-  int rd_buff;
-  int x;
+  static int counter = 0;
+  static int i = 0;
+  static int j = 0;
+  char txt[BUFER_SIZE];
 
-  if ((rd_buff = read(fd, file_content, BUFER_SIZE)) == -1)
+  // check if read success or not
+  if (read(fd, txt, BUFER_SIZE) == -1)
     return (-1);
-  file_content[rd_buff] = '\0';
-  j = 0;
-  i = 0;
-  x = 0;
-  while (file_content[i])
+
+  // loop on txt for the file
+  while (txt[i])
   {
-    if (file_content[i] == 10)
+    if (txt[i] == 10)
     {
-      line[x] = malloc(i - j + 1);
-      ft_strncpy(line[x++], file_content + j, i - j);
-      j = i;
-      j++;
+        // allocate space in line array
+        if ((line[counter] = malloc(i - j)) == NULL)
+          return (-1);
+        // copy characters from txt to line
+        ft_strncpy(line[counter++], txt + j, i - j);
+        j = ++i;
+        return (1); // not sure about this
     }
     i++;
   }
-  line[x] = '\0';
-  return 1;
+  // if End Of File Reached
+
+  if ((line[counter] = malloc(i - j)) == NULL)
+          return (-1);
+  ft_strncpy(line[counter++], txt + j, i - j);
+  return 0;
 }
 /*
-int main ()
+int main()
 {
-  int file = open("test", O_RDONLY);
+  int fd = open("test", O_RDONLY);
+  char *lines[2];
+  //lines[4] = '\0';
   int i = 0;
-  char *table[10];
-  get_next_line(file, table);
-  while (table[i])
+  while (i < 3)
   {
-    printf("%s\n", table[i]);
+    printf("%d\n", get_next_line(fd, lines));
     i++;
   }
+  printf("%s\n", lines[0]);
+  printf("%s\n", lines[1]);
+  printf("%s\n", lines[2]);
+
   return 0;
 }
 */
